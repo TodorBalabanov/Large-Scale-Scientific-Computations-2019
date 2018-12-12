@@ -1,28 +1,22 @@
 \documentclass[12pt,a4paper]{article}
-\usepackage{authblk}
 
 \title{Solving Combinatorial Puzzles with Parallel Evolutionary Algorithms}
 
-\author{Todor Balabanov}
-\author{Stoyan Ivanov}
-\author{Rumen Ketipov}
-
-\affil{Institute of Information and Communication Technologies,
-Bulgarian Academy of Sciences,
-acad. G. Bonchev Str, Block 2, 1113 Sofia, Bulgaria,
-todorb@iinf.bas.bg}
+\author{Todor Balabanov, Stoyan Ivanov, Rumen Ketipov}
 
 % Todor Balabanov todorb@iinf.bas.bg
 % Stoyan Ivanov et_idea@abv.bg 
 % Rumen Ketipov rnketipov@gmail.com
 
-\date{December 10, 2018}
+% \affil{Institute of Information and Communication Technologies,
+% Bulgarian Academy of Sciences,
+% acad. G. Bonchev Str, Block 2, 1113 Sofia, Bulgaria,
+% todorb@iinf.bas.bg}
 
-\begin{document}
+\date{\empty}
 
+\begin{document} 
 \maketitle
-
-ABSTRACT \\
 
 Rubik's cube is the most popular combinatorial puzzle. It is well known that solutions of the combinatorial problems are generally hard to find. If 90 degree clockwise rotations of the cube's sides are taken as operations it will give a minimal cube's grammar. By building formal grammar sentences with the usage of the six operations ([L]eft, [R]ight, [T]op, [D]own, [F]ront, [B]ack) all cube's permutations can be achieved. In an evolutionary algorithms (like genetic algorithms for example) set of formal grammar sentences can be represented as population individuals. Single cut point crossover can be efficiently applied when population individuals are strings. Changing randomly selected operation with another randomly selected operation can be used as efficient mutation operator. The most important part of such global optimization is the fitness function. For better individuals fitness value evaluation a combination between Euclidean and Hausdorff distances is proposed in this research. The experiments in this research are done as parallel program written in C++ and Open MPI.
 
