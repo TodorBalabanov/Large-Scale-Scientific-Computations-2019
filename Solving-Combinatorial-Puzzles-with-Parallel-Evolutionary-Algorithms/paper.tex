@@ -1,0 +1,56 @@
+\documentclass[runningheads]{llncs}
+
+\usepackage{graphicx}
+\usepackage{hyperref,xcolor}
+\renewcommand\UrlFont{\color{blue}\rmfamily}
+
+\begin{document}
+
+\title{Solving Combinatorial Puzzles with Parallel Evolutionary Algorithms \thanks{This work was supported by a private funding of Velbazhd Software LLC.}}
+\titlerunning{Solving Puzzles with PEA}
+
+\author{Todor Balabanov\orcidID{0000-0003-3139-069X} \and
+Stoyan Ivanov \and
+Rumen Ketipov}
+\authorrunning{T. Balabanov et al.}
+
+\institute{Institute of Information and Communication Technologies \\
+Bulgarian Academy of Sciences \\
+acad. G. Bonchev Str, Block 2, 1113 Sofia, Bulgaria \\
+\email{todorb@iinf.bas.bg} \\
+\url{http://iict.bas.bg/}}
+
+\maketitle
+
+\begin{abstract}
+Rubik's cube is the most popular combinatorial puzzle. It is well known that solutions of the combinatorial problems are generally hard to find. If 90 degree clockwise rotations of the cube's sides are taken as operations it will give a minimal cube's grammar. By building formal grammar sentences with the usage of the six operations ([L]eft, [R]ight, [T]op, [D]own, [F]ront, [B]ack) all cube's permutations can be achieved. In an evolutionary algorithms (like genetic algorithms for example) set of formal grammar sentences can be represented as population individuals. Single cut point crossover can be efficiently applied when population individuals are strings. Changing randomly selected operation with another randomly selected operation can be used as efficient mutation operator. The most important part of such global optimization is the fitness function. For better individuals fitness value evaluation a combination between Euclidean and Hausdorff distances is proposed in this research. The experiments in this research are done as parallel program written in C++ and Open MPI.
+
+\keywords{Distributed evolutionary algorithms \and Combinatorial puzzles \and Integer optimization.}
+\end{abstract}
+
+\section{First Section}
+
+\subsection{A Subsection Sample}
+
+\subsubsection{Sample Heading (Third Level)}
+
+\paragraph{Sample Heading (Fourth Level)}
+
+\cite{ref_author1}
+\cite{ref_author2}
+\cite{ref_author3,ref_author4}
+
+\begin{thebibliography}{8}
+\bibitem{ref_author1}
+Family, N.: Article title. Journal \textbf{x}(y), pp--pp (yyyy)
+
+\bibitem{ref_author2}
+Family, N.: Article title. Journal \textbf{x}(y), pp--pp (yyyy)
+
+\bibitem{ref_author3}
+Family, N.: Article title. Journal \textbf{x}(y), pp--pp (yyyy)
+
+\bibitem{ref_author4}
+Family, N.: Article title. Journal \textbf{x}(y), pp--pp (yyyy)
+\end{thebibliography}
+\end{document}
