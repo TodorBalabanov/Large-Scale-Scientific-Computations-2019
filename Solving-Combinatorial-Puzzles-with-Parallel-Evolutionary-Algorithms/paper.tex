@@ -32,13 +32,26 @@ Rubik's cube is the most popular combinatorial puzzle. It is well known that sol
 
 A parallel implementation of a genetic algorithm based solver of the Rubik's cube was implemented by Balabanov in \cite{balabanov01} and it was presented in \cite{balabanov02}. Rubik's cube was invented and introduced by Erno Rubik in the 70s of the 20th century. After its creation the cube became the most popular combinatorial puzzle all over the world. In its original version it has 3x3x3 cubical segments. There are stickers in six different colors on each subcube square of the exposed sides. Each of the six planes (3x3x1) can be rotated in 90, 180, 270 or 360 degrees, relative to the other part of the puzzle. In the original initial state all sides of the cube are in single color. Scumbling of the puzzle is done by many random rotations of the (3x3x1) sides. The optimization task is to restore the cube in its original state. Such combinatorial optimization problem is quite difficult, because there are billions of combinations. The real number of combinations is $4.3252*10^{19}$ \cite{korf01} and all of them can be reached from any starting combination. The puzzle is successfully resolved when a sequence of moves is applied such that all subcubes are matched to each other by their color on each side of the cube. By estimation in \cite{korf01}, resolutions sequences variate from 50 to 100 moves when the is well scrambled. 
 
-When there is an optimization problem with a sequence of commands it is a perfect candidate for evolutionary algorithms as optimizers. This research addresses the application of parallel genetic algorithms for Rubik's cube optimal or suboptimal solutions findings. The source code of the experiments is written in C++ with OpenMPI for parallel calculations and it can be found in a public source code repository \cite{balabanov01}. Modification of the evaluation function presented in \cite{balabanov02} is proposed by addition of Hausdorff distance component.
+When there is an optimization problem with a sequence of commands it is a perfect candidate for evolutionary algorithms as optimizers. This research addresses the application of parallel genetic algorithms for Rubik's cube optimal or suboptimal solutions findings. The source code of the experiments is written in C++ with OpenMPI for parallel calculations and it can be found in a public source code repository \cite{balabanov01}. Modification of the evaluation function presented in \cite{balabanov02} is upgraded by addition of Hausdorff distance component.
 
 The rest of this paper is organized as follows: Section 2 describes theoretical details. Section 3 presents the proposed modifications into a practical software example. Section 4 is devoted to some experiments and results. Finally, Section 5 concludes and presents some ideas for further research.
 
 \section{Parallel Genetic Algorithms}
 
 \section{Modified Rubik's Cube Solver}
+
+The core of the optimization code is Rubik's cube representation into the computer memory. For the needs in this research the cube is presented as six (one for each side) two-dimensional (3x3) arrays. Values in these arrays are integer numbers which correspond to cube's colors. There are better ways for digital representation \cite{korf01}, but it is much more practical in this way from algorithmic aspect. 
+
+Data structures are on first side of the modeling. On the second side are the algorithmic operations done over the data structures. The cube has six sides that is why the minimum number of operations over the cube is six. Six capital letters are used for 90 degrees clockwise rotations, as proposed in \cite{randall01,balabanov02}: \\ 
+\\
+T (Top) –90 degrees clockwise rotation of the top side; \\ 
+L (Left) –90 degrees clockwise rotation of the left side; \\ 
+B (Back) –90 degrees clockwise rotation of the back side; \\ 
+R (Right) –90 degrees clockwise rotation of the right side; \\ 
+F (Front) –90 degrees clockwise rotation of the front side; \\ 
+D (Down) –90 degrees clockwise rotation of the down side. \\ 
+
+This set of six operations is the minimal fully functional grammar for the Rubik's cube. Extended grammars are also possible, for example if counter-clockwise operators are included (+T, +L, +B, +R, +F, +D, –T, –L, –B, –R, –F, –D). Next level of extension is addition as number of turns (+1T, +2T, +3T, +1L, +2L, +3L, +1B, +2B, +3B, +1R, +2R, +3R, +1F, +2F, +3F, +1D,+2D, +3D, –1T, –2T, –3T, –1L, –2L, –3L, –1B, –2B, –3B, –1R, –2R, –3R, –1F, –2F, –3F, –1D, –2D, –3D) \cite{balabanov02}.
 
 \section{Experiments and Results}
 
@@ -51,5 +64,7 @@ MPI Parallel Implementation of Genetic Algorithm Based Rubik’s Cube Solver, \u
 Balabanov, T., Zankinski, I., Barova, M.: Strategy for Individuals Distribution by Incident Nodes Participation in Star Topology of Distributed Evolutionary Algorithms. Cybernetics and Information Technologies \textbf{16}(1), 80--88 (2016)
 \bibitem{korf01}
 Korf, R.: Finding Optimal Solutions to Rubik’s Cube Using Pattern Databases. In: AAAI-98 Proceedings, pp. 700--705. AAAI Press, Menlo Park, CA, USA (1998)
+\bibitem{randall01}
+Randall, K.: Cilk - Efficient Multithreaded Computing. Doctor of Philosophy Thesis in Computer Science and Engineering, Massachusetts Institute of Technology, USA (1998) 
 \end{thebibliography}
 \end{document}
