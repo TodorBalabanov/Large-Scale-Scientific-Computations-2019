@@ -1,6 +1,7 @@
 \documentclass[runningheads]{llncs}
 
 \usepackage{graphicx}
+\usepackage{placeins}
 \usepackage{hyperref,xcolor}
 \renewcommand\UrlFont{\color{blue}\rmfamily}
 
@@ -30,7 +31,7 @@ Rubik's cube is the most popular combinatorial puzzle. It is well known that sol
 
 \section{Introduction}
 
-A parallel implementation of a genetic algorithm based solver of the Rubik's cube was implemented by Balabanov in \cite{balabanov01} and it was presented in \cite{balabanov02}. Rubik's cube was invented and introduced by Erno Rubik in the 70s of the 20th century. After its creation the cube became the most popular combinatorial puzzle all over the world. In its original version it has 3x3x3 cubical segments. There are stickers in six different colors on each subcube square of the exposed sides. Each of the six planes (3x3x1) can be rotated in 90, 180, 270 or 360 degrees, relative to the other part of the puzzle. In the original initial state all sides of the cube are in single color. Scumbling of the puzzle is done by many random rotations of the (3x3x1) sides. The optimization task is to restore the cube in its original state. Such combinatorial optimization problem is quite difficult, because there are billions of combinations. The real number of combinations is $4.3252*10^{19}$ \cite{korf01} and all of them can be reached from any starting combination. The puzzle is successfully resolved when a sequence of moves is applied such that all subcubes are matched to each other by their color on each side of the cube. By estimation in \cite{korf01}, resolutions sequences variate from 50 to 100 moves when the is well scrambled. 
+A parallel implementation of a genetic algorithm based solver of the Rubik's cube was implemented by Balabanov in \cite{balabanov01} and it was presented in \cite{balabanov02}. Rubik's cube was invented and introduced by Erno Rubik in the 70s of the 20th century. After its creation the cube became the most popular combinatorial puzzle all over the world. In its original version it has 3x3x3 cubical segments. There are stickers in six different colors on each subcube square of the exposed sides. Each of the six planes (3x3x1) can be rotated in 90, 180, 270 or 360 degrees, relative to the other part of the puzzle. In the original initial state all sides of the cube are in single color. Scumbling of the puzzle is done by many random rotations of the (3x3x1) sides. The optimization task is to restore the cube in its original state. Such combinatorial optimization problem is quite difficult, because there are billions of combinations. The real number of combinations is $4.3252*10^{19}$ \cite{korf01} and all of them can be reached from any starting combination. The puzzle is successfully resolved when a sequence of moves is applied such that all subcubes are matched to each other by their color on each side of the cube. By estimation in \cite{korf01}, resolutions sequences variate from 50 to 100 moves when the cube is well scrambled. 
 
 When there is an optimization problem with a sequence of commands it is a perfect candidate for evolutionary algorithms as optimizers. This research addresses the application of parallel genetic algorithms for Rubik's cube optimal or suboptimal solutions findings. The source code of the experiments is written in C++ with OpenMPI for parallel calculations and it can be found in a public source code repository \cite{balabanov01}. Modification of the evaluation function presented in \cite{balabanov02} is upgraded by addition of Hausdorff distance component.
 
@@ -53,9 +54,27 @@ D (Down) –90 degrees clockwise rotation of the down side. \\
 
 This set of six operations is the minimal fully functional grammar for the Rubik's cube. Extended grammars are also possible, for example if counter-clockwise operators are included (+T, +L, +B, +R, +F, +D, –T, –L, –B, –R, –F, –D). Next level of extension is addition as number of turns (+1T, +2T, +3T, +1L, +2L, +3L, +1B, +2B, +3B, +1R, +2R, +3R, +1F, +2F, +3F, +1D,+2D, +3D, –1T, –2T, –3T, –1L, –2L, –3L, –1B, –2B, –3B, –1R, –2R, –3R, –1F, –2F, –3F, –1D, –2D, –3D) \cite{balabanov02}.
 
+With this clear idea for a formal Rubik's cube grammar it is neutral genetic algorithm individuals to be represented as formal grammar sentences with variable length. Each of the letters can appear at any position many times repeated in the chromosome. As it was appointed in \cite{korf01} the average expected length of the chromosomes can be between 50 and 100.
+
+\begin{figure}
+\includegraphics[width=\textwidth]{fig01.png}
+\caption{Fitness value evaluation by combination between Euclidean and Hausdorff distance.} \label{fig01}
+\end{figure}
+\FloatBarrier
+
+Single cut point is selected as crossover population, but other options \cite{poli01} are also applicable. As mutation operator random change of a single instruction is selected. Selection is done by randomly selected parents, but elitism rule is applied. For the evaluation of the newly created individuals instructions encoded in the individual are applied over the scrambled cube. After that the state of the cube is compared with the target state (cube in the solved state). The listing in Fig.\ref{fig01} shows the proposed in this paper modification of fitness evaluation function. For each pairs of cube's sides Euclidean distance is calculated. After that according Hausdorff distance rules the maximum of the minimums is found. Evaluated fitness value is positive, because the Euclidean distance is calculated with positive integers (cube's colors are mapped to integers) and the Hausdorff distance is calculation of a maximum of the minimums. The puzzle is as better solved as the fitness value is smaller. 
+
 \section{Experiments and Results}
 
+All experiments were done on a single processor desktop machine - Intel Core i5, 2.3 GHz, 2 Cores, 8GB RAM and Mac OS X 10.13.6, Apple LLVM version 9.1.0. For the parallel implementation Open MPI is used.
+
 \section{Conclusions}
+
+\cite{tashev01}
+
+\cite{alexandrov01}
+
+\cite{atanasova01}
 
 \begin{thebibliography}{8}
 \bibitem{balabanov01}
@@ -66,5 +85,13 @@ Balabanov, T., Zankinski, I., Barova, M.: Strategy for Individuals Distribution 
 Korf, R.: Finding Optimal Solutions to Rubik’s Cube Using Pattern Databases. In: AAAI-98 Proceedings, pp. 700--705. AAAI Press, Menlo Park, CA, USA (1998)
 \bibitem{randall01}
 Randall, K.: Cilk - Efficient Multithreaded Computing. Doctor of Philosophy Thesis in Computer Science and Engineering, Massachusetts Institute of Technology, USA (1998) 
+\bibitem{poli01}
+Poli, R., Kozak J.: Genetic Programming. In: Burke, EK., Kendall, G. (eds.) Search Methodologies, pp. 143--185. Springer US (2014)
+\bibitem{tashev01}
+Tashev, T., Hristov, H.: Modeling of synthesis of information processes with generalized nets. Cybernetics and Information Technologies, \textbf{3}(2), 92--104 (2003) 
+\bibitem{alexandrov01}
+Alexandrov, A.: AD HOC Kalman filter based fusion algorithm for real-time Wireless Sensor Data Integration. In: FQAS-2015 Proceedings, pp. 151--160. Springer, Heidelberg (2015)
+\bibitem{atanasova01}
+Atanasova T., Barova M.: Exploratory analysis of Time Series for hypothesize feature values. In: UniTech17 Proceedings,  \textbf{16}(2), 399--403 (2017)
 \end{thebibliography}
 \end{document}
