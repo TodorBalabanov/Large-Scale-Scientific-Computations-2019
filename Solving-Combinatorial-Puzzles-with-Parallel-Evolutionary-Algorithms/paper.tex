@@ -39,6 +39,21 @@ The rest of this paper is organized as follows: Section 2 describes theoretical 
 
 \section{Parallel Genetic Algorithms}
 
+Genetic algorithms are global optimization strategy inspired from the evolution process in the Biology theories. Place of the genetic algorithms and the genetic programming in the family of the metaheuristics is well presented in Fig.\ref{fig02}.
+
+\begin{figure}
+\includegraphics[width=0.5\textwidth]{fig02.png}
+\centering
+\caption{Euler diagram of the different classifications of metaheuristics.} \label{fig02}
+\end{figure}
+\FloatBarrier
+
+Solutions of a particular problem are represented as vectors of values into the solution space. All selected solution vectors are the population of the algorithm. The most common way of initial population establishment is by generation of random vectors. Each new generation appears in the population after recombination of selected individuals. In genetic algorithms recombination is done by two consequent operators - crossover and mutation. Which individuals to participate in the recombination process is decided by application of selection operator. It is very common during selection process elitism rule to be applied. Elitism means that some percent of the best found solutions survive to the real end of the optimization process. Because such optimization procedure as implemented in the genetic algorithms is iterative, stopping criteria is needed. The most used stopping criteria is initially given number of genetic algorithm generations. 
+
+Genetic algorithms are the base of the genetic programming which is used in this research. Each element of the solution vector actually is an operation applied over the state of the Rubik's cube. Ordered set of such instructions is actually an algorithmic program. Because there is no direct intermediate relation between the individuals in a particular population genetic algorithms are perfect for implementation in parallel computing or distributed computing. Population of the genetic algorithm can be easily divided is many sub-population and it can be distributed on many processors/cores or even heterogeneous computers in a cluster. Separation of the global population is the preferred approach, but in cases where only the fitness value calculation is time consuming population is kept in the central processor/computer and only fitness value calculation is sent to the other contributing processors/computers. 
+
+When sub-populations distribution calculation scheme is selected some strategy for individual migration should be applied \cite{balabanov02}. Migration between different islands is needed in order best found solutions to be available in some or in all sub-populations. When the implementation of the calculation is organized as donated distributed computing project in the inclusion of a new remote contributing computer fresh subset of the global population can be supplied. With such strategy solutions space is much better investigated. 
+
 \section{Modified Rubik's Cube Solver}
 
 The core of the optimization code is Rubik's cube representation into the computer memory. For the needs in this research the cube is presented as six (one for each side) two-dimensional (3x3) arrays. Values in these arrays are integer numbers which correspond to cube's colors. There are better ways for digital representation \cite{korf01}, but it is much more practical in this way from algorithmic aspect. 
@@ -57,7 +72,8 @@ This set of six operations is the minimal fully functional grammar for the Rubik
 With this clear idea for a formal Rubik's cube grammar it is neutral genetic algorithm individuals to be represented as formal grammar sentences with variable length. Each of the letters can appear at any position many times repeated in the chromosome. As it was appointed in \cite{korf01} the average expected length of the chromosomes can be between 50 and 100.
 
 \begin{figure}
-\includegraphics[width=\textwidth]{fig01.png}
+\includegraphics[width=0.75\textwidth]{fig01.png}
+\centering
 \caption{Fitness value evaluation by combination between Euclidean and Hausdorff distance.} \label{fig01}
 \end{figure}
 \FloatBarrier
@@ -70,15 +86,13 @@ All experiments were done on a single processor desktop machine - Intel Core i5,
 
 \section{Conclusions}
 
-\cite{tashev01}
+The experiments clearly show that the addition of Hausdorff distance component improves the performance of the genetic algorithm. Calculation of the Hausdorff distance is a little bit slower than the calculation of the Euclidean distance, but better solution fitness estimation generally leads to genetic algorithm convergence improvement. Investigation in the field of the soft computing can be done for the proposed fitness value evaluation as it was done in \cite{angelova01}.
 
-\cite{alexandrov01}
-
-\cite{atanasova01}
+As further research it will be interesting evaluation of the fitness value to be additionally filtered with Kalman filter \cite{alexandrov01} for example. The other interesting direction would be imvolwment of the artificial neural networks such as \cite{tashev01,atanasova01} for preliminary solutions evaluation.
 
 \begin{thebibliography}{8}
 \bibitem{balabanov01}
-MPI Parallel Implementation of Genetic Algorithm Based Rubik’s Cube Solver, \url{http://github.com/TodorBalabanov/RubiksCubeGeneticAlgorithmsSolver}. Last accessed 12 Jan 2019
+MPI Parallel Implementation of Genetic Algorithm Based Rubik’s Cube Solver, \url{http://github.com/TodorBalabanov/RubiksCubeGeneticAlgorithmsSolver}. Last accessed 10 Feb 2019
 \bibitem{balabanov02}
 Balabanov, T., Zankinski, I., Barova, M.: Strategy for Individuals Distribution by Incident Nodes Participation in Star Topology of Distributed Evolutionary Algorithms. Cybernetics and Information Technologies \textbf{16}(1), 80--88 (2016)
 \bibitem{korf01}
@@ -87,10 +101,12 @@ Korf, R.: Finding Optimal Solutions to Rubik’s Cube Using Pattern Databases. I
 Randall, K.: Cilk - Efficient Multithreaded Computing. Doctor of Philosophy Thesis in Computer Science and Engineering, Massachusetts Institute of Technology, USA (1998) 
 \bibitem{poli01}
 Poli, R., Kozak J.: Genetic Programming. In: Burke, EK., Kendall, G. (eds.) Search Methodologies, pp. 143--185. Springer US (2014)
-\bibitem{tashev01}
-Tashev, T., Hristov, H.: Modeling of synthesis of information processes with generalized nets. Cybernetics and Information Technologies, \textbf{3}(2), 92--104 (2003) 
+\bibitem{angelova01}
+Angelova, V.: Investigations in the Area of Soft Computing Targeted State of the Art Report. Cybernetics and Information Technologies \textbf{9}(1), 18--24 (2009)
 \bibitem{alexandrov01}
 Alexandrov, A.: AD HOC Kalman filter based fusion algorithm for real-time Wireless Sensor Data Integration. In: FQAS-2015 Proceedings, pp. 151--160. Springer, Heidelberg (2015)
+\bibitem{tashev01}
+Tashev, T., Hristov, H.: Modeling of synthesis of information processes with generalized nets. Cybernetics and Information Technologies, \textbf{3}(2), 92--104 (2003) 
 \bibitem{atanasova01}
 Atanasova T., Barova M.: Exploratory analysis of Time Series for hypothesize feature values. In: UniTech17 Proceedings,  \textbf{16}(2), 399--403 (2017)
 \end{thebibliography}
