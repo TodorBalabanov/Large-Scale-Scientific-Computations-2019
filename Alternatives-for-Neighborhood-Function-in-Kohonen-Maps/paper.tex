@@ -4,6 +4,7 @@
 \usepackage{placeins}
 \usepackage{hyperref,xcolor}
 \renewcommand\UrlFont{\color{blue}\rmfamily}
+\usepackage{amsmath}
 
 \begin{document}
 
@@ -44,9 +45,32 @@ Generally accepted concept of an optimal clustering is data set separation which
 The network consists of a grid (usually two dimensional) with units. The units are connected to adjacent units with a neighborhood relation. The amount of grid units, which usually varies from a few dozen up to several thousand, gives the accuracy and generalization possibilities of the KNN. The network forms an elastic mesh that folds
 as a cloud formed by the input data during training phase. Data samples lying near each other in the input space are mapped into nearby grid units. 
 
-The network training is done iteratively. A data sample vector is randomly chosen from the input data set, as first step. As second step, distances between the selected vector and all the prototype vectors are computed. The best matching unit is the grid unit with prototype closest the selected vector. In the third step, the prototype vectors in the grid are updated. The best matching unit and its topological neighbors are moved closer to the input vector in the input space. 
+The network training is done iteratively. A data sample vector is randomly chosen from the input data set, as first step. As second step, distances between the selected vector and all the prototype vectors are computed. The best matching unit is the grid unit with prototype closest the selected vector. In the third step, the prototype vectors in the grid are updated. The best matching unit and its topological neighbors are moved closer to the input vector in the input space \cite{vesanto01}.
 
-\cite{vesanto01}
+\section{Neighborhood Function}
+
+The most used KNN's neighborhood function is the Gaussian function. In this research two alternative functions are proposed. The first function is fading cosine, which is shown in Fig.\ref{fig01}-Left. The second function is exponential regulated cosine, which is shown in FIg.\ref{fig01}-Right.
+
+\begin{figure}
+\includegraphics[width=1.0\textwidth]{fig01.png}
+\centering
+\caption{Left - Fading cosine neighborhood function. Right - Exponential regulated cosine neighborhood function.} \label{fig01}
+\end{figure}
+\FloatBarrier
+
+The idea for the both functions is to stress grid nodes down and up. The exponential regulated cosine Eq.\ref{equ02} gives smoother stress than the fading cosine Eq.\ref{equ01}. 
+
+\begin{equation} \label{equ01}
+f(x) = 
+	\begin{cases} 
+		cos(x) \\
+		\frac{cos(x)}{|x|} \\
+	\end{cases}
+\end{equation}
+
+\begin{equation} \label{equ02}
+f(x) = \frac{cos(x)}{e^{|x|}}
+\end{equation}
 
 \section{Experiments and Results}
 
