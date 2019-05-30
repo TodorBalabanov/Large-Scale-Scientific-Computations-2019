@@ -4,6 +4,8 @@
 \usepackage{placeins}
 \usepackage{hyperref,xcolor}
 \renewcommand\UrlFont{\color{blue}\rmfamily}
+\usepackage{listings}
+\definecolor{very-light-gray}{gray}{0.95}
 
 \begin{document}
 
@@ -42,11 +44,11 @@ The rest of this paper is organized as follows: Section 2 briefly describes theo
 Genetic algorithms are global optimization strategy inspired from the evolution process in the Biology theories. Place of the genetic algorithms and the genetic programming in the family of the metaheuristics is well presented in Fig.\ref{fig02}.
 
 \begin{figure}
-\includegraphics[width=0.5\textwidth]{fig02.png}
+\includegraphics[width=1.0\textwidth,height=0.65\textwidth]{fig02.png}
 \centering
 \caption{Euler diagram of the different classifications of metaheuristics.} \label{fig02}
 \end{figure}
-\FloatBarrier
+%\FloatBarrier
 
 Solutions of a particular problem are represented as vectors of values into the solution space. All selected solution vectors are the population of the algorithm. The most common way of initial population establishment is by generation of random vectors. Each new generation appears in the population after recombination of selected individuals. In genetic algorithms recombination is done by two consequent operators - crossover and mutation. Which individuals to participate in the recombination process is decided by application of selection operator. It is very common during selection process elitism rule to be applied. Elitism means that some percent of the best found solutions survive to the real end of the optimization process. Because genetic algorithms based optimization is an iterative optimization a stopping criteria is needed. The most used stopping criteria is initially given number of genetic algorithm generations. 
 
@@ -91,7 +93,26 @@ All experiments were done on a single processor desktop machine - Intel Core i5,
 \end{figure}
 \FloatBarrier
 
-Experiments are done in two groups with 30 independent runs for each. The source code originally is divided for test with star topology and incident nodes participation as migration strategies. That is why there are two groups of experiments. Each experiment compares pure Euclidean distance implementation and the proposed Hausdorff distance modification. 
+Experiments are done in two groups with 30 independent runs for each. The source code originally is divided for test with star topology and incident nodes participation as migration strategies. That is why there are two groups of experiments. Each experiment compares pure Euclidean distance implementation and the proposed Hausdorff distance modification. Parameters of the genetic algorithm are listed in Tab. \ref{tab01}.
+
+\begin{table}
+\caption{Genetic algorithm parameters.}
+\label{tab01}
+\begin{tabular}{p{6.9cm}p{4.4cm}}
+\hline\noalign{\smallskip}
+\textbf{Parameter} & \textbf{Value} \\
+\hline\noalign{\smallskip}
+generation gap & 0.93 \\
+crossover rate & 0.98 \\
+mutation rate & 0.01 \\
+maximum generations & 10000 \\
+number of individuals & 37 \\
+number of variables & floating \\
+inserted rate & 100 \% \\
+\noalign{\smallskip}\hline\noalign{\smallskip}
+\end{tabular}
+\end{table}
+\FloatBarrier
 
 \begin{figure}
 \includegraphics[width=0.75\textwidth]{fig04.png}
@@ -100,7 +121,52 @@ Experiments are done in two groups with 30 independent runs for each. The source
 \end{figure}
 \FloatBarrier
 
-Fig.\ref{fig03} shows that when star topology is used the advantage of Hausdorff modification is not so great, but as it is shown in Fig.\ref{fig04} when an incident nodes participation is used the proposed modification leads to convergence seep-up.
+Fig.\ref{fig03} shows that when star topology is used the advantage of Hausdorff modification is not so great, but as it is shown in Fig.\ref{fig04} when an incident nodes participation is used the proposed modification leads to convergence seep-up. Calculation of a Euclidean distance between two cubes uses six calculations of the sides for the cube (Listing \ref{lst01}). In the case of Hausdorff distance there are six times more calls of a single Euclidean distance calculation (Listing \ref{lst02}).
+
+\begin{lstlisting}[caption={Euclidean distance.},label={lst01},backgroundcolor=\color{very-light-gray},frame={single}]
+double euclidean(const int side1[3][3], 
+                 const int side2[3][3]) const {
+  double distance = 0.0;
+
+  for(int i=0; i<3; i++) {
+    for(int j=0; j<3; j++) {
+      distance += (side1[i][j]-side2[i][j]) * 
+                  (side1[i][j]-side2[i][j]);
+    }
+  }
+
+  return sqrt(distance);
+}
+\end{lstlisting}
+\FloatBarrier
+
+\begin{lstlisting}[caption={Hausdorff distance.},label={lst02},backgroundcolor=\color{very-light-gray},frame={single}]
+double hausdorff(const RubiksCube &cube) const {
+  double min[] = {INT_MAX, INT_MAX, INT_MAX, 
+                  INT_MAX, INT_MAX, INT_MAX};
+
+  for(int s1=0; s1<6; s1++) {
+    for(int s2=0; s2<6; s2++) {
+      double distance = 
+      euclidean(*sides[s1], *(cube.sides)[s2]);
+
+      if(min[s1] > distance) {
+        min[s1] = distance;
+      }
+    }
+  }
+
+  double result = min[0];
+  for(int s1=0; s1<6; s1++) {
+    if(result < min[s1]) {
+      result = min[s1];
+    }
+  }
+
+  return(result);
+}
+\end{lstlisting}
+\FloatBarrier
 
 \section{Conclusions}
 
