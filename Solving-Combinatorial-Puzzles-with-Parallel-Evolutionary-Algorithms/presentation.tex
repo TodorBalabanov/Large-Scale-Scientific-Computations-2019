@@ -99,6 +99,89 @@
 \end{itemize}
 \end{frame}
 
+\begin{frame}
+\frametitle{Individuals Representation}
+\begin{itemize}
+  \item Formal grammar sentences with variable length
+  \item Each of the operations can appear at any position many times
+  \item The average expected length of the chromosomes is between 50 and 100
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Recombination Parameters}
+\begin{itemize}
+  \item Single cut point crossover
+  \item Random change of a single instruction mutation
+  \item Random selection of parents
+  \item Elitism rule
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Fitness Value}
+\begin{itemize}
+  \item Instructions from GA individual are applied over the scrambled cube
+  \item Hausdorff distance between manipulated cube and solved cube is calculated
+  \item Lower fitness values are for better individuals
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Proposed Fitness Evaluation}
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=1.0\textwidth,height=0.65\textwidth]{fig01}
+  \label{fig01}
+\end{figure}
+\end{frame}
+
+\section{Experiments and Results}
+
+\begin{frame}
+\center \huge{Experiments and Results}
+\end{frame}
+
+\begin{frame}
+\frametitle{Platform Setup}
+\begin{itemize}
+  \item Intel Core i5, 2.3 GHz, 2 Cores, 8GB RAM
+  \item Mac OS X 10.13.6
+  \item Apple LLVM version 9.1.0 / Open MPI
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Genetic Algorithm Parameters}
+\begin{itemize}
+  \item Generation gap: 0.93
+  \item Crossover rate: 0.98
+  \item Mutation rate: 0.01
+  \item Maximum generations: 10000
+  \item Number of individuals: 37
+  \item Number of variables: floating
+  \item Inserted rate: 100
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Star Topology Results}
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=1.0\textwidth,height=0.5\textwidth]{fig03}
+  \label{fig03}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Incident Nodes Participation}
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=1.0\textwidth,height=0.5\textwidth]{fig04}
+  \label{fig04}
+\end{figure}
+\end{frame}
+
 \section{Conclusions}
 
 \begin{frame}
